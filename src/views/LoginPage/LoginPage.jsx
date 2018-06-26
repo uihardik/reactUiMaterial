@@ -6,6 +6,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Email from "@material-ui/icons/Email";
 import LockOutline from "@material-ui/icons/LockOutline";
 import People from "@material-ui/icons/People";
+import Snackbar from '@material-ui/core/Snackbar';
 // core components
 import Header from "components/Header/Header.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
@@ -18,17 +19,22 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
+import SnackbarWrapper from "components/Snackbar/SnackbarToast.jsx";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg7.jpg";
+
+import API from '../../config/';
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      open: false,
+      variant:''
     };
   }
   componentDidMount() {
@@ -40,14 +46,44 @@ class LoginPage extends React.Component {
       700
     );
   }
+
+  handleSubmit = event => {
+    API.post(`login`,{email:'shashi.shekhar@indianic.com',password:'shashi@123'})
+      .then(res => {
+        console.log(res);
+        console.log(res.data.status);
+        if(res.data.status == 1){
+          console.log(res.status);
+          this.setState({ open: true,variant:'success',message:res.data.message});
+        }else{
+          this.setState({ open: true,variant:'error',message:res.message});
+        }
+
+      })
+  }
+
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
+  handleChange = event => {
+    console.log(event.target.value );
+    //this.setState({ name: event.target.value });
+  };
+
   render() {
     const { classes, ...rest } = this.props;
+    const { vertical, horizontal, open, message } = this.state;
     return (
       <div>
         <Header
           absolute
           color="transparent"
-          brand="Material Kit React"
+          brand="HK React"
           rightLinks={<HeaderLinks />}
           {...rest}
         />
@@ -119,6 +155,7 @@ class LoginPage extends React.Component {
                         formControlProps={{
                           fullWidth: true
                         }}
+                        onChange={this.handleChange}
                         inputProps={{
                           type: "email",
                           endAdornment: (
@@ -134,6 +171,7 @@ class LoginPage extends React.Component {
                         formControlProps={{
                           fullWidth: true
                         }}
+                        onChange={this.handleChange}
                         inputProps={{
                           type: "password",
                           endAdornment: (
@@ -147,7 +185,7 @@ class LoginPage extends React.Component {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button simple color="primary" size="lg">
+                      <Button simple color="primary" size="lg" onClick = {()=> {this.handleSubmit()}}>
                         Get started
                       </Button>
                     </CardFooter>
@@ -155,6 +193,21 @@ class LoginPage extends React.Component {
                 </Card>
               </GridItem>
             </GridContainer>
+            <Snackbar
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={this.state.open}
+                autoHideDuration={1500}
+                onClose={this.handleClose}
+              >
+                <SnackbarWrapper
+                  onClose={this.handleClose}
+                  variant={this.state.variant}
+                  message={this.state.message}
+                />
+              </Snackbar>
           </div>
           <Footer whiteFont />
         </div>

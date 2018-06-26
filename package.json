@@ -6,6 +6,7 @@
     "@material-ui/core": "1.2.1",
     "@material-ui/icons": "1.1.0",
     "ajv": "6.0.0",
+    "axios": "^0.18.0",
     "history": "4.7.2",
     "moment": "2.22.2",
     "node-sass-chokidar": "1.3.0",
@@ -25,6 +26,9 @@
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",
+    "build:dev": "cp ./.env.development ./.env && npm run build",
+    "build:staging": "cp ./.env.staging ./.env && npm run build",
+    "build:prod": "cp ./.env.producation ./.env && npm run build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

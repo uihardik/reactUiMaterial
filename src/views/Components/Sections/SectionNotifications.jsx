@@ -13,7 +13,7 @@ import notificationsStyles from "assets/jss/material-kit-react/views/componentsS
 
 class SectionNotifications extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, message } = this.props;
     return (
       <div className={classes.section} id="notifications">
         <div className={classes.container}>

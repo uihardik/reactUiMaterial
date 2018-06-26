@@ -48,7 +48,6 @@ function HeaderLinks({ ...props }) {
       <ListItem className={classes.listItem}>
         <Link to={"/login"}>
           <Button
-            href="https://www.creative-tim.com/product/material-kit-react"
             color="transparent"
             target="_blank"
             className={classes.navLink}

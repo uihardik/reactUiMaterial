@@ -1,6 +1,7 @@
 import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
+import { withRouter } from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -20,7 +21,15 @@ import team1 from "assets/img/faces/avatar.jpg";
 import team2 from "assets/img/faces/christian.jpg";
 import team3 from "assets/img/faces/kendall.jpg";
 
-class TeamSection extends React.Component {
+class TeamMember extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.profilechnage = this.profilechnage.bind(this)
+  }
+  profilechnage(){
+    this.props.history.push('/profile')
+  }
   render() {
     const { classes } = this.props;
     const imageClasses = classNames(
@@ -36,7 +45,7 @@ class TeamSection extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               <Card plain>
                 <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
-                  <img src={team1} alt="..." className={imageClasses} />
+                  <img src={team1} alt="..." className={imageClasses}/>
                 </GridItem>
                 <h4 className={classes.cardTitle}>
                   Gigi Hadid
@@ -79,7 +88,7 @@ class TeamSection extends React.Component {
             <GridItem xs={12} sm={12} md={4}>
               <Card plain>
                 <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
-                  <img src={team2} alt="..." className={imageClasses} />
+                  <img src={team2} alt="..." className={imageClasses} onClick={this.profilechnage}/>
                 </GridItem>
                 <h4 className={classes.cardTitle}>
                   Christian Louboutin
@@ -161,5 +170,6 @@ class TeamSection extends React.Component {
     );
   }
 }
+const TeamSection = withRouter(TeamMember)
 
 export default withStyles(teamStyle)(TeamSection);
