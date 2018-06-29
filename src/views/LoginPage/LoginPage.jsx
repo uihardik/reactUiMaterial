@@ -34,7 +34,9 @@ class LoginPage extends React.Component {
     this.state = {
       cardAnimaton: "cardHidden",
       open: false,
-      variant:''
+      variant:'',
+      email:'',
+      password:'',
     };
   }
   componentDidMount() {
@@ -48,11 +50,9 @@ class LoginPage extends React.Component {
   }
 
   handleSubmit = event => {
-    API.post(`login`,{email:'shashi.shekhar@indianic.com',password:'shashi@123'})
+    API.post(`login`,{email:this.state.email,password:this.state.password})
       .then(res => {
-        console.log(res);
-        console.log(res.data.status);
-        if(res.data.status == 1){
+        if(res.data.status === 1){
           console.log(res.status);
           this.setState({ open: true,variant:'success',message:res.data.message});
         }else{
@@ -71,13 +71,11 @@ class LoginPage extends React.Component {
   };
 
   handleChange = event => {
-    console.log(event.target.value );
-    //this.setState({ name: event.target.value });
+    this.setState({ [event.target.id]: event.target.value });
   };
 
   render() {
     const { classes, ...rest } = this.props;
-    const { vertical, horizontal, open, message } = this.state;
     return (
       <div>
         <Header
@@ -140,6 +138,7 @@ class LoginPage extends React.Component {
                         formControlProps={{
                           fullWidth: true
                         }}
+                        inputValue={(val)=>{this.handleChange(val)}}
                         inputProps={{
                           type: "text",
                           endAdornment: (
@@ -155,7 +154,7 @@ class LoginPage extends React.Component {
                         formControlProps={{
                           fullWidth: true
                         }}
-                        onChange={this.handleChange}
+                        inputValue={(val)=>{this.handleChange(val)}}
                         inputProps={{
                           type: "email",
                           endAdornment: (
@@ -167,11 +166,11 @@ class LoginPage extends React.Component {
                       />
                       <CustomInput
                         labelText="Password"
-                        id="pass"
+                        id="password"
                         formControlProps={{
                           fullWidth: true
                         }}
-                        onChange={this.handleChange}
+                        inputValue={(val)=>{this.handleChange(val)}}
                         inputProps={{
                           type: "password",
                           endAdornment: (
